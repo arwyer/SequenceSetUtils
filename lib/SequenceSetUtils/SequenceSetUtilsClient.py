@@ -33,6 +33,55 @@ class SequenceSetUtils(object):
             trust_all_ssl_certificates=trust_all_ssl_certificates,
             auth_svc=auth_svc)
 
+    def buildFromFasta(self, in, context=None):
+        """
+        :param in: instance of type "FastaInputParams" (ws_name - workspace
+           name path - path to fasta in the workspace) -> structure:
+           parameter "ws_name" of String, parameter "path" of String
+        :returns: instance of type "SequenceSetOutputParams" (SequenceSet_ref
+           - handle to the new SequenceSet object) -> structure: parameter
+           "SequenceSet_ref" of String
+        """
+        return self._client.call_method(
+            'SequenceSetUtils.buildFromFasta',
+            [in], self._service_ver, context)
+
+    def buildFromLocations(self, in, context=None):
+        """
+        :param in: instance of type "LocationInputParams" (ws_name -
+           workspace name seqlocations - list of sequence locations) ->
+           structure: parameter "ws_name" of String, parameter "seqlocations"
+           of list of type "sequence_location" (genome_ref - handle to genome
+           genlocations - list of locations in the genome to build a single
+           sequence from, usually length 1) -> structure: parameter
+           "genome_ref" of String, parameter "genlocations" of list of tuple
+           of size 4: type "Contig_id" (Insert your typespec information
+           here.), Long, type "orientation", Long
+        :returns: instance of type "SequenceSetOutputParams" (SequenceSet_ref
+           - handle to the new SequenceSet object) -> structure: parameter
+           "SequenceSet_ref" of String
+        """
+        return self._client.call_method(
+            'SequenceSetUtils.buildFromLocations',
+            [in], self._service_ver, context)
+
+    def buildFromFeatureSet(self, in, context=None):
+        """
+        :param in: instance of type "FeatureSetInputParams" (ws_name -
+           workspace name FeatureSet_ref - handle to input feature set
+           genome_ref - handle to genome to extract features from
+           upstream_length - length of region upstream of features to extract
+           sequences from) -> structure: parameter "ws_name" of String,
+           parameter "FeatureSet_ref" of String, parameter "genome_ref" of
+           String, parameter "upstream_length" of Long
+        :returns: instance of type "SequenceSetOutputParams" (SequenceSet_ref
+           - handle to the new SequenceSet object) -> structure: parameter
+           "SequenceSet_ref" of String
+        """
+        return self._client.call_method(
+            'SequenceSetUtils.buildFromFeatureSet',
+            [in], self._service_ver, context)
+
     def status(self, context=None):
         return self._client.call_method('SequenceSetUtils.status',
                                         [], self._service_ver, context)

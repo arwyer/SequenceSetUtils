@@ -1,0 +1,88 @@
+{
+    "ver": "0.0.1",
+    "authors": [
+        "arwyer"
+    ],
+    "contact": "",
+    "categories": ["active"],
+    "widgets": {
+        "input": null,
+        "output": null
+    },
+    "parameters": [ 
+        {
+            "id": "genome_ref",
+            "optional": false,
+            "advanced": false,
+            "allow_multiple": false,
+            "default_values": [ "" ],
+            "field_type": "text",
+            "text_options": {
+                "valid_ws_types": [ "KBaseGenomes.Genome"]
+            }
+		},
+		{
+            "id": "FeatureSet_ref",
+            "optional": false,
+            "advanced": false,
+            "allow_multiple": false,
+            "default_values": [ "" ],
+            "field_type": "text",
+            "text_options": {
+                "valid_ws_types": [ "KBaseCollections.FeatureSet"]
+            }
+		},
+		{
+            "id": "upstream_length",
+            "optional": false,
+            "advanced": false,
+            "allow_multiple": false,
+            "default_values": [ "" ],
+            "field_type": "text",
+            "text_options": {
+                "validate_as":  "int",
+				"min_integer" : 0
+            }
+		}
+		
+    ],
+    "behavior": {
+        "service-mapping": {
+            "url": "",
+            "name": "SequenceSetUtils",
+            "method": "buildFromFeatureSet",
+            "input_mapping": [
+                {
+                    "narrative_system_variable": "workspace",
+                    "target_property": "ws_name"
+                },
+                {
+                    "input_parameter": "genome_ref",
+                    "target_property": "genome_ref",
+					"target_type_transform": "resolved_ref"
+                },
+                {
+                    "input_parameter": "FeatureSet_ref",
+                    "target_property": "FeatureSet_ref",
+					"target_type_transform": "resolved_ref"
+                },
+                {
+                    "input_parameter": "upstream_length",
+                    "target_property": "upstream_length"
+                }
+				
+            ],
+            "output_mapping": [
+                {
+                    "service_method_output_path": [0,"SequenceSet_ref"],
+                    "target_property": "SequenceSet_ref"
+                },
+                {
+                    "narrative_system_variable": "workspace",
+                    "target_property": "ws_name"
+                }
+            ]
+        }
+    },
+    "job_id_output_field": "docker"
+}

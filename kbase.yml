@@ -2,7 +2,7 @@ module-name:
     SequenceSetUtils
 
 module-description:
-    A KBase module
+    Tool to assist in working with sequence sets
 
 service-language:
     python
