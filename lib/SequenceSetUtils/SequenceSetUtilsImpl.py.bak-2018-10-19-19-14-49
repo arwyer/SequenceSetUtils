@@ -36,8 +36,6 @@ class SequenceSetUtils:
     # be found
     def __init__(self, config):
         #BEGIN_CONSTRUCTOR
-        self.callback_url = os.environ['SDK_CALLBACK_URL']
-        self.shared_folder = config['scratch']
         #END_CONSTRUCTOR
         pass
 
@@ -73,7 +71,7 @@ class SequenceSetUtils:
                 Sequence['sequence'] = line.replace('\n','')
                 SequenceSet['sequences'].append(Sequence)
         save_objects_params = {}
-        save_objects_params['id'] = dfu.ws_name_to_id(params['ws_name'])
+        save_objects_params['id'] = dfu.ws_name_to_id(in['ws_name'])
         save_objects_params['objects'] = [{'type': 'KBaseGwasData.SequenceSet','data':SequenceSet,'name':objname}]
         info = dfu.save_objects(save_objects_params)[0]
         ref = "%s/%s/%s" % (info[6],info[0],info[4])
@@ -133,7 +131,7 @@ class SequenceSetUtils:
         
         #Get the featureset and assembly to extract sequences from
         dfu = DataFileUtil(self.callback_url)
-        objectRefs = {'object_refs' : [params['FeatureSet_ref']]}
+        objectRefs = {'object_refs' : [in['FeatureSet_ref']]}
         ws = Workspace('https://appdev.kbase.us/services/ws')
         ws_name = params['ws_name']
         subset = ws.get_object_subset([{
@@ -229,7 +227,7 @@ class SequenceSetUtils:
                 print('Could not find feature ' + feature + 'in genome')
         
         save_objects_params = {}
-        save_objects_params['id'] = dfu.ws_name_to_id(params['ws_name'])
+        save_objects_params['id'] = dfu.ws_name_to_id(in['ws_name'])
         save_objects_params['objects'] = [{'type': 'KBaseGwasData.SequenceSet','data':SequenceSet,'name':objname}]
         info = dfu.save_objects(save_objects_params)[0]
         ref = "%s/%s/%s" % (info[6],info[0],info[4])

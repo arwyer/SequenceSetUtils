@@ -110,7 +110,7 @@ sub new
 
 =head2 buildFromFasta
 
-  $out = $obj->buildFromFasta($in)
+  $out = $obj->buildFromFasta($params)
 
 =over 4
 
@@ -119,7 +119,7 @@ sub new
 =begin html
 
 <pre>
-$in is a SequenceSetUtils.FastaInputParams
+$params is a SequenceSetUtils.FastaInputParams
 $out is a SequenceSetUtils.SequenceSetOutputParams
 FastaInputParams is a reference to a hash where the following keys are defined:
 	ws_name has a value which is a string
@@ -133,7 +133,7 @@ SequenceSetOutputParams is a reference to a hash where the following keys are de
 
 =begin text
 
-$in is a SequenceSetUtils.FastaInputParams
+$params is a SequenceSetUtils.FastaInputParams
 $out is a SequenceSetUtils.SequenceSetOutputParams
 FastaInputParams is a reference to a hash where the following keys are defined:
 	ws_name has a value which is a string
@@ -164,10 +164,10 @@ SequenceSetOutputParams is a reference to a hash where the following keys are de
 							       "Invalid argument count for function buildFromFasta (received $n, expecting 1)");
     }
     {
-	my($in) = @args;
+	my($params) = @args;
 
 	my @_bad_arguments;
-        (ref($in) eq 'HASH') or push(@_bad_arguments, "Invalid type for argument 1 \"in\" (value was \"$in\")");
+        (ref($params) eq 'HASH') or push(@_bad_arguments, "Invalid type for argument 1 \"params\" (value was \"$params\")");
         if (@_bad_arguments) {
 	    my $msg = "Invalid arguments passed to buildFromFasta:\n" . join("", map { "\t$_\n" } @_bad_arguments);
 	    Bio::KBase::Exceptions::ArgumentValidationError->throw(error => $msg,
@@ -202,7 +202,7 @@ SequenceSetOutputParams is a reference to a hash where the following keys are de
 
 =head2 buildFromLocations
 
-  $out = $obj->buildFromLocations($in)
+  $out = $obj->buildFromLocations($params)
 
 =over 4
 
@@ -211,7 +211,7 @@ SequenceSetOutputParams is a reference to a hash where the following keys are de
 =begin html
 
 <pre>
-$in is a SequenceSetUtils.LocationInputParams
+$params is a SequenceSetUtils.LocationInputParams
 $out is a SequenceSetUtils.SequenceSetOutputParams
 LocationInputParams is a reference to a hash where the following keys are defined:
 	ws_name has a value which is a string
@@ -235,7 +235,7 @@ SequenceSetOutputParams is a reference to a hash where the following keys are de
 
 =begin text
 
-$in is a SequenceSetUtils.LocationInputParams
+$params is a SequenceSetUtils.LocationInputParams
 $out is a SequenceSetUtils.SequenceSetOutputParams
 LocationInputParams is a reference to a hash where the following keys are defined:
 	ws_name has a value which is a string
@@ -276,10 +276,10 @@ SequenceSetOutputParams is a reference to a hash where the following keys are de
 							       "Invalid argument count for function buildFromLocations (received $n, expecting 1)");
     }
     {
-	my($in) = @args;
+	my($params) = @args;
 
 	my @_bad_arguments;
-        (ref($in) eq 'HASH') or push(@_bad_arguments, "Invalid type for argument 1 \"in\" (value was \"$in\")");
+        (ref($params) eq 'HASH') or push(@_bad_arguments, "Invalid type for argument 1 \"params\" (value was \"$params\")");
         if (@_bad_arguments) {
 	    my $msg = "Invalid arguments passed to buildFromLocations:\n" . join("", map { "\t$_\n" } @_bad_arguments);
 	    Bio::KBase::Exceptions::ArgumentValidationError->throw(error => $msg,
@@ -314,7 +314,7 @@ SequenceSetOutputParams is a reference to a hash where the following keys are de
 
 =head2 buildFromFeatureSet
 
-  $out = $obj->buildFromFeatureSet($in)
+  $out = $obj->buildFromFeatureSet($params)
 
 =over 4
 
@@ -323,7 +323,7 @@ SequenceSetOutputParams is a reference to a hash where the following keys are de
 =begin html
 
 <pre>
-$in is a SequenceSetUtils.FeatureSetInputParams
+$params is a SequenceSetUtils.FeatureSetInputParams
 $out is a SequenceSetUtils.SequenceSetOutputParams
 FeatureSetInputParams is a reference to a hash where the following keys are defined:
 	ws_name has a value which is a string
@@ -339,7 +339,7 @@ SequenceSetOutputParams is a reference to a hash where the following keys are de
 
 =begin text
 
-$in is a SequenceSetUtils.FeatureSetInputParams
+$params is a SequenceSetUtils.FeatureSetInputParams
 $out is a SequenceSetUtils.SequenceSetOutputParams
 FeatureSetInputParams is a reference to a hash where the following keys are defined:
 	ws_name has a value which is a string
@@ -372,10 +372,10 @@ SequenceSetOutputParams is a reference to a hash where the following keys are de
 							       "Invalid argument count for function buildFromFeatureSet (received $n, expecting 1)");
     }
     {
-	my($in) = @args;
+	my($params) = @args;
 
 	my @_bad_arguments;
-        (ref($in) eq 'HASH') or push(@_bad_arguments, "Invalid type for argument 1 \"in\" (value was \"$in\")");
+        (ref($params) eq 'HASH') or push(@_bad_arguments, "Invalid type for argument 1 \"params\" (value was \"$params\")");
         if (@_bad_arguments) {
 	    my $msg = "Invalid arguments passed to buildFromFeatureSet:\n" . join("", map { "\t$_\n" } @_bad_arguments);
 	    Bio::KBase::Exceptions::ArgumentValidationError->throw(error => $msg,

@@ -166,14 +166,14 @@ public class SequenceSetUtilsClient {
      * <p>Original spec-file function name: buildFromFasta</p>
      * <pre>
      * </pre>
-     * @param   in   instance of type {@link us.kbase.sequencesetutils.FastaInputParams FastaInputParams}
+     * @param   params   instance of type {@link us.kbase.sequencesetutils.FastaInputParams FastaInputParams}
      * @return   parameter "out" of type {@link us.kbase.sequencesetutils.SequenceSetOutputParams SequenceSetOutputParams}
      * @throws IOException if an IO exception occurs
      * @throws JsonClientException if a JSON RPC exception occurs
      */
-    public SequenceSetOutputParams buildFromFasta(FastaInputParams in, RpcContext... jsonRpcContext) throws IOException, JsonClientException {
+    public SequenceSetOutputParams buildFromFasta(FastaInputParams params, RpcContext... jsonRpcContext) throws IOException, JsonClientException {
         List<Object> args = new ArrayList<Object>();
-        args.add(in);
+        args.add(params);
         TypeReference<List<SequenceSetOutputParams>> retType = new TypeReference<List<SequenceSetOutputParams>>() {};
         List<SequenceSetOutputParams> res = caller.jsonrpcCall("SequenceSetUtils.buildFromFasta", args, retType, true, true, jsonRpcContext, this.serviceVersion);
         return res.get(0);
@@ -183,14 +183,14 @@ public class SequenceSetUtilsClient {
      * <p>Original spec-file function name: buildFromLocations</p>
      * <pre>
      * </pre>
-     * @param   in   instance of type {@link us.kbase.sequencesetutils.LocationInputParams LocationInputParams}
+     * @param   params   instance of type {@link us.kbase.sequencesetutils.LocationInputParams LocationInputParams}
      * @return   parameter "out" of type {@link us.kbase.sequencesetutils.SequenceSetOutputParams SequenceSetOutputParams}
      * @throws IOException if an IO exception occurs
      * @throws JsonClientException if a JSON RPC exception occurs
      */
-    public SequenceSetOutputParams buildFromLocations(LocationInputParams in, RpcContext... jsonRpcContext) throws IOException, JsonClientException {
+    public SequenceSetOutputParams buildFromLocations(LocationInputParams params, RpcContext... jsonRpcContext) throws IOException, JsonClientException {
         List<Object> args = new ArrayList<Object>();
-        args.add(in);
+        args.add(params);
         TypeReference<List<SequenceSetOutputParams>> retType = new TypeReference<List<SequenceSetOutputParams>>() {};
         List<SequenceSetOutputParams> res = caller.jsonrpcCall("SequenceSetUtils.buildFromLocations", args, retType, true, true, jsonRpcContext, this.serviceVersion);
         return res.get(0);
@@ -200,14 +200,14 @@ public class SequenceSetUtilsClient {
      * <p>Original spec-file function name: buildFromFeatureSet</p>
      * <pre>
      * </pre>
-     * @param   in   instance of type {@link us.kbase.sequencesetutils.FeatureSetInputParams FeatureSetInputParams}
+     * @param   params   instance of type {@link us.kbase.sequencesetutils.FeatureSetInputParams FeatureSetInputParams}
      * @return   parameter "out" of type {@link us.kbase.sequencesetutils.SequenceSetOutputParams SequenceSetOutputParams}
      * @throws IOException if an IO exception occurs
      * @throws JsonClientException if a JSON RPC exception occurs
      */
-    public SequenceSetOutputParams buildFromFeatureSet(FeatureSetInputParams in, RpcContext... jsonRpcContext) throws IOException, JsonClientException {
+    public SequenceSetOutputParams buildFromFeatureSet(FeatureSetInputParams params, RpcContext... jsonRpcContext) throws IOException, JsonClientException {
         List<Object> args = new ArrayList<Object>();
-        args.add(in);
+        args.add(params);
         TypeReference<List<SequenceSetOutputParams>> retType = new TypeReference<List<SequenceSetOutputParams>>() {};
         List<SequenceSetOutputParams> res = caller.jsonrpcCall("SequenceSetUtils.buildFromFeatureSet", args, retType, true, true, jsonRpcContext, this.serviceVersion);
         return res.get(0);

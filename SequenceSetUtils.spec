@@ -59,12 +59,12 @@ module SequenceSetUtils {
 		string SequenceSet_ref;
 	} SequenceSetOutputParams;
 	
-	funcdef buildFromFasta(FastaInputParams in)
+	funcdef buildFromFasta(FastaInputParams params)
 		returns (SequenceSetOutputParams out) authentication required;
 	
-	funcdef buildFromLocations(LocationInputParams in)
+	funcdef buildFromLocations(LocationInputParams params)
 		returns (SequenceSetOutputParams out) authentication required;
 		
-	funcdef buildFromFeatureSet(FeatureSetInputParams in)
+	funcdef buildFromFeatureSet(FeatureSetInputParams params)
 		returns (SequenceSetOutputParams out) authentication required;
 };

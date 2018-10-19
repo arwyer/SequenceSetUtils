@@ -27,7 +27,7 @@ class SequenceSetUtils:
     ######################################### noqa
     VERSION = "0.0.1"
     GIT_URL = "https://github.com/arwyer/SequenceSetUtils.git"
-    GIT_COMMIT_HASH = "bc29c88c63aa873912e903262dfbb7deb88badff"
+    GIT_COMMIT_HASH = "d3344ed78f1411ea7adb6fbbc757151e1c718326"
 
     #BEGIN_CLASS_HEADER
     #END_CLASS_HEADER
@@ -36,18 +36,15 @@ class SequenceSetUtils:
     # be found
     def __init__(self, config):
         #BEGIN_CONSTRUCTOR
-        self.callback_url = os.environ['SDK_CALLBACK_URL']
-        self.shared_folder = config['scratch']
         #END_CONSTRUCTOR
         pass
 
 
-    def buildFromFasta(self, ctx, params):
+    def buildFromFasta(self, ctx, in):
         """
-        :param params: instance of type "FastaInputParams" (ws_name -
-           workspace name path - path to fasta in the workspace) ->
-           structure: parameter "ws_name" of String, parameter "path" of
-           String
+        :param in: instance of type "FastaInputParams" (ws_name - workspace
+           name path - path to fasta in the workspace) -> structure:
+           parameter "ws_name" of String, parameter "path" of String
         :returns: instance of type "SequenceSetOutputParams" (SequenceSet_ref
            - handle to the new SequenceSet object) -> structure: parameter
            "SequenceSet_ref" of String
@@ -59,9 +56,9 @@ class SequenceSetUtils:
         SequenceSet = {}
         objname = 'SequenceSet' + str(int((datetime.utcnow() - datetime.utcfromtimestamp(0)).total_seconds()*1000))
         SequenceSet['sequence_set_id'] = objname
-        SequenceSet['description'] = 'SequenceSet built from ' + params['path']
+        SequenceSet['description'] = 'SequenceSet built from ' + in['path']
         SequenceSet['sequences'] = []
-        fastaFile = open(params['path'],'r')
+        fastaFile = open(in['path'],'r')
         Sequence = {}
         for line in fastaFile:
             if '>' in line:
@@ -73,7 +70,7 @@ class SequenceSetUtils:
                 Sequence['sequence'] = line.replace('\n','')
                 SequenceSet['sequences'].append(Sequence)
         save_objects_params = {}
-        save_objects_params['id'] = dfu.ws_name_to_id(params['ws_name'])
+        save_objects_params['id'] = dfu.ws_name_to_id(in['ws_name'])
         save_objects_params['objects'] = [{'type': 'KBaseGwasData.SequenceSet','data':SequenceSet,'name':objname}]
         info = dfu.save_objects(save_objects_params)[0]
         ref = "%s/%s/%s" % (info[6],info[0],info[4])
@@ -87,9 +84,9 @@ class SequenceSetUtils:
         # return the results
         return [out]
 
-    def buildFromLocations(self, ctx, params):
+    def buildFromLocations(self, ctx, in):
         """
-        :param params: instance of type "LocationInputParams" (ws_name -
+        :param in: instance of type "LocationInputParams" (ws_name -
            workspace name seqlocations - list of sequence locations) ->
            structure: parameter "ws_name" of String, parameter "seqlocations"
            of list of type "sequence_location" (genome_ref - handle to genome
@@ -114,9 +111,9 @@ class SequenceSetUtils:
         # return the results
         return [out]
 
-    def buildFromFeatureSet(self, ctx, params):
+    def buildFromFeatureSet(self, ctx, in):
         """
-        :param params: instance of type "FeatureSetInputParams" (ws_name -
+        :param in: instance of type "FeatureSetInputParams" (ws_name -
            workspace name FeatureSet_ref - handle to input feature set
            genome_ref - handle to genome to extract features from
            upstream_length - length of region upstream of features to extract
@@ -133,12 +130,12 @@ class SequenceSetUtils:
         
         #Get the featureset and assembly to extract sequences from
         dfu = DataFileUtil(self.callback_url)
-        objectRefs = {'object_refs' : [params['FeatureSet_ref']]}
+        objectRefs = {'object_refs' : [in['FeatureSet_ref']]}
         ws = Workspace('https://appdev.kbase.us/services/ws')
-        ws_name = params['ws_name']
+        ws_name = in['ws_name']
         subset = ws.get_object_subset([{
                                      'included':['/features/[*]/location', '/features/[*]/id','/assembly_ref'],
-'ref':params['genome_ref']}])
+'ref':in['genome_ref']}])
         features = subset[0]['data']['features']
         aref = subset[0]['data']['assembly_ref']
         objects = dfu.get_objects(objectRefs)
@@ -158,7 +155,7 @@ class SequenceSetUtils:
         SequenceSet = {}
         objname = 'SequenceSet' + str(int((datetime.utcnow() - datetime.utcfromtimestamp(0)).total_seconds()*1000))
         SequenceSet['sequence_set_id'] = objname
-        SequenceSet['description'] = 'SequenceSet built from ' + params['FeatureSet_ref'] + ' with length ' +str(params['upstream_length'])
+        SequenceSet['description'] = 'SequenceSet built from ' + in['FeatureSet_ref'] + ' with length ' +str(in['upstream_length'])
         SequenceSet['sequences'] = []
         prom= ""
         featureFound = False
@@ -194,7 +191,7 @@ class SequenceSetUtils:
                             #print('1')
                         #might need to offset by 1?
                             end = attributes[1]
-                            start = end - params['upstream_length']
+                            start = end - in['upstream_length']
                             if start < 0:
                                 start = 0
                             Source['location'].append((feature,start,'+',end))
@@ -208,7 +205,7 @@ class SequenceSetUtils:
                         elif attributes[2] == '-':
                             #print('2')
                             start = attributes[1]
-                            end = start + params['upstream_length']
+                            end = start + in['upstream_length']
                             if end > len(record.seq) - 1:
                                 end = len(record.seq) - 1
                             Source['location'].append((feature,start,'-',end))
@@ -229,7 +226,7 @@ class SequenceSetUtils:
                 print('Could not find feature ' + feature + 'in genome')
         
         save_objects_params = {}
-        save_objects_params['id'] = dfu.ws_name_to_id(params['ws_name'])
+        save_objects_params['id'] = dfu.ws_name_to_id(in['ws_name'])
         save_objects_params['objects'] = [{'type': 'KBaseGwasData.SequenceSet','data':SequenceSet,'name':objname}]
         info = dfu.save_objects(save_objects_params)[0]
         ref = "%s/%s/%s" % (info[6],info[0],info[4])
