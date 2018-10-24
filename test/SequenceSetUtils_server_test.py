@@ -18,6 +18,7 @@ from SequenceSetUtils.SequenceSetUtilsImpl import SequenceSetUtils
 from SequenceSetUtils.SequenceSetUtilsServer import MethodContext
 from SequenceSetUtils.authclient import KBaseAuth as _KBaseAuth
 from random import choice
+import string
 from DataFileUtil.DataFileUtilClient import DataFileUtil
 
 class SequenceSetUtilsTest(unittest.TestCase):
@@ -95,18 +96,18 @@ class SequenceSetUtilsTest(unittest.TestCase):
         nameLen = 10
         seqLen = 100
         for n in range(0,numSeq):
-            randname = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(nameLen))
-            testaFasta.write('>' + randname + '\n')
+            randname = ''.join(choice(string.ascii_uppercase + string.digits) for _ in range(nameLen))
+            testFasta.write('>' + randname + '\n')
             randseq=""
             for count in range(0,seqLen):
                 randseq+=choice("CGTA")
             testFasta.write(randseq + '\n')
             seqNames.append(randname)
             seqs.append(randseq)
-        testaFasta.close()
-       
-            
-        
+        testFasta.close()
+
+
+
         params = {}
         params['path'] = fastaPath
         params['ws_name'] = self.getWsName()
@@ -114,13 +115,15 @@ class SequenceSetUtilsTest(unittest.TestCase):
         dfu = DataFileUtil(self.callback_url)
         get_objects_params = {}
         get_objects_params['object_refs'] = [result[0]['SequenceSet_ref']]
-        SeqSet = dfu.get_objects(get_objects_params)[0]['data'][0]
-        for s in SeqSet[sequences]:
+        #SeqSet = dfu.get_objects(get_objects_params)[0]['data'][0]
+        SeqSet = dfu.get_objects(get_objects_params)['data'][0]['data']
+        #print(SeqSet)
+        for s in SeqSet['sequences']:
             if s['sequence_id'] not in seqNames:
                 assert 1 == 0
             assert len(set([s['sequence']]) & set(seqs)) >= 1
-        
-        
+
+
         pass
     def test_buildFromFeatureSet(self):
         # Prepare test objects in workspace if needed using
@@ -132,16 +135,16 @@ class SequenceSetUtilsTest(unittest.TestCase):
         #
         # Check returned data with
         # self.assertEqual(ret[...], ...) or other unittest methods
-        
+
         params = {}
-        params['ws_name'] = 'pranjan77:narrative_1517498855061'
-        params['FeatureSet_ref'] = '12566/6/1'
-        params['genome_ref'] = '12566/5/3'
+        params['ws_name'] = 'arwyer:narrative_1540333279849'
+        params['FeatureSet_ref'] = '21698/6/1'
+        params['genome_ref'] = '21698/3/1'
         params['upstream_length'] = 100
         result = self.getImpl().buildFromFeatureSet(self.getContext(),params)
         dfu = DataFileUtil(self.callback_url)
         get_objects_params = {}
         get_objects_params['object_refs'] = [result[0]['SequenceSet_ref']]
-        SeqSet = dfu.get_objects(get_objects_params)[0]['data'][0]
-        
+        SeqSet = dfu.get_objects(get_objects_params)['data'][0]['data']
+
         pass
