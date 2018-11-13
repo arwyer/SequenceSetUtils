@@ -27,7 +27,7 @@ class SequenceSetUtils:
     ######################################### noqa
     VERSION = "0.0.1"
     GIT_URL = "https://github.com/arwyer/SequenceSetUtils.git"
-    GIT_COMMIT_HASH = "dd7a7b6c2663be904ff9709487ad0ca0b1dcbbfe"
+    GIT_COMMIT_HASH = "1b5c8edc1fb0631e4dd13cd1e56238f350f28d18"
 
     #BEGIN_CLASS_HEADER
     #END_CLASS_HEADER
@@ -172,7 +172,6 @@ class SequenceSetUtils:
         SequenceSet['sequences'] = []
         prom= ""
         featureFound = False
-        featureLocs = {}
         for feature in featureSet['elements']:
             #print(feature)
             #print(featureSet['elements'][feature])
@@ -181,7 +180,6 @@ class SequenceSetUtils:
                 #print f['id']
                 #print feature
                 if f['id'] == feature:
-
                     attributes = f['location'][0]
                     featureFound = True
                     #print('found match ' + feature)
@@ -195,7 +193,6 @@ class SequenceSetUtils:
                 Source = {}
                 Source['assembly_id'] = aref
                 Source['location'] = []
-
                 for record in SeqIO.parse(fasta_file['path'], 'fasta'):
                 #for record in SeqIO.parse('/kb/module/work/Gmax_189_genome_assembly.fa', 'fasta'):
                 #print(record.id)
@@ -210,10 +207,10 @@ class SequenceSetUtils:
                             start = end - params['upstream_length']
                             if start < 0:
                                 start = 0
-                            Source['location'].append((attributes[0],start,'+',end))
+                            Source['location'].append((feature,start,'+',end))
                             promoter = record.seq[start:end].upper()
                             #HERE: resolve ambiguous characters
-                            Sequence['sequence'] = str(promoter)
+                            Sequence['sequence'] = promoter
                             prom += ">" + feature + "\n"
                             prom += promoter + "\n"
 
@@ -229,7 +226,7 @@ class SequenceSetUtils:
                             complement = {'A': 'T', 'C': 'G', 'G': 'C', 'T': 'A','N': 'N'}
                             promoter = ''.join([complement[base] for base in promoter[::-1]])
                             #HERE: resolve ambiguous characters
-                            Sequence['sequence'] = str(promoter)
+                            Sequence['sequence'] = promoter
                             prom += ">" + feature + "\n"
                             prom += promoter + "\n"
 
