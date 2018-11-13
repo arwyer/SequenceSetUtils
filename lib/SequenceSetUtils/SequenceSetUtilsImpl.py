@@ -172,6 +172,7 @@ class SequenceSetUtils:
         SequenceSet['sequences'] = []
         prom= ""
         featureFound = False
+        featureLocs = {}
         for feature in featureSet['elements']:
             #print(feature)
             #print(featureSet['elements'][feature])
@@ -180,6 +181,7 @@ class SequenceSetUtils:
                 #print f['id']
                 #print feature
                 if f['id'] == feature:
+
                     attributes = f['location'][0]
                     featureFound = True
                     #print('found match ' + feature)
@@ -193,6 +195,7 @@ class SequenceSetUtils:
                 Source = {}
                 Source['assembly_id'] = aref
                 Source['location'] = []
+
                 for record in SeqIO.parse(fasta_file['path'], 'fasta'):
                 #for record in SeqIO.parse('/kb/module/work/Gmax_189_genome_assembly.fa', 'fasta'):
                 #print(record.id)
@@ -207,10 +210,10 @@ class SequenceSetUtils:
                             start = end - params['upstream_length']
                             if start < 0:
                                 start = 0
-                            Source['location'].append((feature,start,'+',end))
+                            Source['location'].append((attributes[0],start,'+',end))
                             promoter = record.seq[start:end].upper()
                             #HERE: resolve ambiguous characters
-                            Sequence['sequence'] = promoter
+                            Sequence['sequence'] = str(promoter)
                             prom += ">" + feature + "\n"
                             prom += promoter + "\n"
 
@@ -226,7 +229,7 @@ class SequenceSetUtils:
                             complement = {'A': 'T', 'C': 'G', 'G': 'C', 'T': 'A','N': 'N'}
                             promoter = ''.join([complement[base] for base in promoter[::-1]])
                             #HERE: resolve ambiguous characters
-                            Sequence['sequence'] = promoter
+                            Sequence['sequence'] = str(promoter)
                             prom += ">" + feature + "\n"
                             prom += promoter + "\n"
 
