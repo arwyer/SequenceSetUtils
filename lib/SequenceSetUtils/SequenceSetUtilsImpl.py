@@ -74,7 +74,7 @@ class SequenceSetUtils:
                 SequenceSet['sequences'].append(Sequence)
         save_objects_params = {}
         save_objects_params['id'] = dfu.ws_name_to_id(params['ws_name'])
-        save_objects_params['objects'] = [{'type': 'KBaseGwasData.SequenceSet','data':SequenceSet,'name':objname}]
+        save_objects_params['objects'] = [{'type': 'KBaseSequences.SequenceSet','data':SequenceSet,'name':objname}]
         info = dfu.save_objects(save_objects_params)[0]
         ref = "%s/%s/%s" % (info[6],info[0],info[4])
         out = {'SequenceSet_ref':ref}
@@ -243,7 +243,7 @@ class SequenceSetUtils:
 
         save_objects_params = {}
         save_objects_params['id'] = dfu.ws_name_to_id(params['ws_name'])
-        save_objects_params['objects'] = [{'type': 'KBaseGwasData.SequenceSet','data':SequenceSet,'name':objname}]
+        save_objects_params['objects'] = [{'type': 'KBaseSequences.SequenceSet','data':SequenceSet,'name':objname}]
         info = dfu.save_objects(save_objects_params)[0]
         ref = "%s/%s/%s" % (info[6],info[0],info[4])
         out = {'SequenceSet_ref':ref}
