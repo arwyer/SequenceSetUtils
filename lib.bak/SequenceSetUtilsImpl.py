@@ -4,9 +4,9 @@ import os
 import json
 from Bio import SeqIO
 from AssemblyUtil.AssemblyUtilClient import AssemblyUtil
-from DataFileUtil.DataFileUtilClient import DataFileUtil
+
 from biokbase.workspace.client import Workspace
-from datetime import datetime
+
 #END_HEADER
 
 
@@ -38,6 +38,7 @@ class SequenceSetUtils:
         #BEGIN_CONSTRUCTOR
         self.callback_url = os.environ['SDK_CALLBACK_URL']
         self.shared_folder = config['scratch']
+        self.fastautil =
         #END_CONSTRUCTOR
         pass
 

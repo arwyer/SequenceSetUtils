@@ -47,9 +47,8 @@ class SequenceSetUtils:
         """
         :param params: instance of type "LocationInputParams"
            (LocationInputParams, direct inputs for buildFromLocation:
-           required: genome_ref - genome referenced by sequence locations
-           genlocations - list of sequence locations sepecified by a location
-           ids optional: seqsetname - name of sequence set output object) ->
+           genome_ref - genome referenced by sequence locations genlocations
+           - list of sequence locations sepecified by a location ids) ->
            structure: parameter "ws_name" of type "workspace_name" (workspace
            name of the object), parameter "seqlocations" of list of type
            "sequence_location" (sequence_location, sequence location
@@ -66,7 +65,7 @@ class SequenceSetUtils:
            DNA/RNA strand) -> structure: parameter "contig_id" of String,
            parameter "start" of Long, parameter "sense" of type "orientation"
            (DNA/RNA strand orientation @range("-", "+")), parameter "end" of
-           Long, parameter "seqsetname" of String
+           Long
         :returns: instance of type "SequenceSetOutputParams" (SequenceSet_ref
            - KBase object reference to sequence set) -> structure: parameter
            "SequenceSet_ref" of type "SequenceSetRef" (Ref to a sequence set
@@ -87,13 +86,11 @@ class SequenceSetUtils:
     def buildFromFasta(self, ctx, params):
         """
         :param params: instance of type "FastaInputParams" (Input parameters
-           for buildFromFasta: required: ws_name - workspace name file -
-           identifiers for fasta file optional: seqsetname - name of sequence
-           set output object) -> structure: parameter "ws_name" of type
-           "workspace_name" (workspace name of the object), parameter "file"
-           of type "File" -> structure: parameter "path" of String, parameter
-           "shock_id" of String, parameter "ftp_url" of String, parameter
-           "seqsetname" of String
+           for buildFromFasta: ws_name - workspace name file - identifiers
+           for fasta file) -> structure: parameter "ws_name" of String,
+           parameter "file" of type "File" -> structure: parameter "path" of
+           String, parameter "shock_id" of String, parameter "ftp_url" of
+           String
         :returns: instance of type "SequenceSetOutputParams" (SequenceSet_ref
            - KBase object reference to sequence set) -> structure: parameter
            "SequenceSet_ref" of type "SequenceSetRef" (Ref to a sequence set
@@ -103,13 +100,7 @@ class SequenceSetUtils:
         # return variables are: out
         #BEGIN buildFromFasta
 
-        self.fastautil.openFasta(params['file'])
-        self.fastautil.buildSeqSet(params)
-        ref = self.fastautil.saveSeqSet(params)
 
-        out = {
-            'SequenceSet_ref': ref
-        }
 
         #END buildFromFasta
 
@@ -123,18 +114,15 @@ class SequenceSetUtils:
     def buildFromFeatureSet(self, ctx, params):
         """
         :param params: instance of type "FeatureSetInputParams" (Input
-           parameters for buildFromFeatureSet required: ws_name - workspace
-           name FeatureSet_ref - validated reference to feature set
-           genome_ref - validated reference to genome upstream_length -
-           length of region upstream of features to extract sequences from
-           optional: seqsetname - name of sequence set output object) ->
-           structure: parameter "ws_name" of type "workspace_name" (workspace
-           name of the object), parameter "FeatureSet_ref" of type
-           "FeatureSetRef" (Ref to a feature set @id ws
-           KBaseCollections.FeatureSet), parameter "genome_ref" of type
-           "GenomeRef" (Ref to a genome @id ws KBaseGenomes.Genome),
-           parameter "upstream_length" of Long, parameter "seqsetname" of
-           String
+           parameters for buildFromFeatureSet ws_name - workspace name
+           FeatureSet_ref - validated reference to feature set genome_ref -
+           validated reference to genome upstream_length - length of region
+           upstream of features to extract sequences from) -> structure:
+           parameter "ws_name" of type "workspace_name" (workspace name of
+           the object), parameter "FeatureSet_ref" of type "FeatureSetRef"
+           (Ref to a feature set @id ws KBaseCollections.FeatureSet),
+           parameter "genome_ref" of type "GenomeRef" (Ref to a genome @id ws
+           KBaseGenomes.Genome), parameter "upstream_length" of Long
         :returns: instance of type "SequenceSetOutputParams" (SequenceSet_ref
            - KBase object reference to sequence set) -> structure: parameter
            "SequenceSet_ref" of type "SequenceSetRef" (Ref to a sequence set

@@ -338,14 +338,14 @@ class Application(object):
         self.serverlog.set_log_level(6)
         self.rpc_service = JSONRPCServiceCustom()
         self.method_authentication = dict()
-        self.rpc_service.add(impl_SequenceSetUtils.buildFromFasta,
-                             name='SequenceSetUtils.buildFromFasta',
-                             types=[dict])
-        self.method_authentication['SequenceSetUtils.buildFromFasta'] = 'required'  # noqa
         self.rpc_service.add(impl_SequenceSetUtils.buildFromLocations,
                              name='SequenceSetUtils.buildFromLocations',
                              types=[dict])
         self.method_authentication['SequenceSetUtils.buildFromLocations'] = 'required'  # noqa
+        self.rpc_service.add(impl_SequenceSetUtils.buildFromFasta,
+                             name='SequenceSetUtils.buildFromFasta',
+                             types=[dict])
+        self.method_authentication['SequenceSetUtils.buildFromFasta'] = 'required'  # noqa
         self.rpc_service.add(impl_SequenceSetUtils.buildFromFeatureSet,
                              name='SequenceSetUtils.buildFromFeatureSet',
                              types=[dict])
