@@ -145,6 +145,8 @@ class SequenceSetUtils:
         #Get the featureset and assembly to extract sequences from
         dfu = DataFileUtil(self.callback_url)
         objectRefs = {'object_refs' : [params['FeatureSet_ref']]}
+        objects = dfu.get_objects(objectRefs)
+
         ws = Workspace('https://appdev.kbase.us/services/ws')
         ws_name = params['ws_name']
         subset = ws.get_object_subset([{
@@ -152,12 +154,15 @@ class SequenceSetUtils:
 'ref':params['genome_ref']}])
         features = subset[0]['data']['features']
         aref = subset[0]['data']['assembly_ref']
-        objects = dfu.get_objects(objectRefs)
-        featureSet = objects['data'][0]['data']
+ featureSet = objects['data'][0]['data']
         assembly_ref = {'ref': aref}
         print('Downloading Assembly data as a Fasta file.')
         assemblyUtil = AssemblyUtil(self.callback_url)
         fasta_file = assemblyUtil.get_assembly_as_fasta(assembly_ref)
+
+
+
+
 
 
         #TODO:
@@ -171,6 +176,8 @@ class SequenceSetUtils:
         SequenceSet['sequence_set_id'] = objname
         SequenceSet['description'] = 'SequenceSet built from ' + params['FeatureSet_ref'] + ' with length ' +str(params['upstream_length'])
         SequenceSet['sequences'] = []
+
+
         prom= ""
         featureFound = False
         featureLocs = {}

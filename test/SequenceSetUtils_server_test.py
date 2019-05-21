@@ -137,14 +137,17 @@ class SequenceSetUtilsTest(unittest.TestCase):
         # Check returned data with
         # self.assertEqual(ret[...], ...) or other unittest methods
 
+        # TODO: add 28598/2/1 feature set to setUp
+        # TODO: add 28598/3/1 genome set to setUp
+
         params = {
             'ws_name': 'rmr:narrative_1558461244202',
-            'FeatureSet_ref': '21698/6/1',
-            'genome_ref': '21698/3/1',
+            'FeatureSet_ref': '',
+            'genome_ref': '28598/5/1',
             'upstream_length': 100
         }
 
-        result = self.getImpl().buildFromFeatureSet(self.getContext(),params)
+        result = self.getImpl().buildFromFeaturePromoters(self.getContext(),params)
 
         get_objects_params = {
             'object_refs': [result[0]['SequenceSet_ref']]

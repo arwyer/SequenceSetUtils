@@ -4,8 +4,6 @@ import logging
 import os
 from .fasta import fastautil
 from .featureset import featuresetutil
-
-from installed_clients.KBaseReportClient import KBaseReport
 #END_HEADER
 
 
@@ -38,7 +36,7 @@ class SequenceSetUtils:
         self.callback_url = os.environ['SDK_CALLBACK_URL']
         self.shared_folder = config['scratch']
         self.fastautil = fastautil(self.callback_url)
-        self.featuresetutil = featuresetutil(self.callback_url)
+        self.featuresetutil = featuresetutil(self.callback_url, config)
         logging.basicConfig(format='%(created)s %(levelname)s: %(message)s',
                             level=logging.INFO)
         #END_CONSTRUCTOR
@@ -147,6 +145,9 @@ class SequenceSetUtils:
         # ctx is the context object
         # return variables are: out
         #BEGIN buildFromFeaturePromoters
+
+        fset = self.featuresetutil.getFeatureSet(params['FeatureSet_ref'])
+        genomefset = self.featuresetutil.getGenomeData(params['genome_ref'])
 
 
 
