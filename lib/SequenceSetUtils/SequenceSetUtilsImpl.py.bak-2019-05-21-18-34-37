@@ -26,7 +26,7 @@ class SequenceSetUtils:
     ######################################### noqa
     VERSION = "0.0.1"
     GIT_URL = "https://github.com/kbasecollaborations/SequenceSetUtils.git"
-    GIT_COMMIT_HASH = "d928a8a561930cc392e7478d5e8553f5dba58ccc"
+    GIT_COMMIT_HASH = "173ca858868f062e744b4294b78b18eb9d155f87"
 
     #BEGIN_CLASS_HEADER
     #END_CLASS_HEADER
@@ -124,7 +124,7 @@ class SequenceSetUtils:
         # return the results
         return [out]
 
-    def buildFromFeaturePromoters(self, ctx, params):
+    def buildFromFeatureSet(self, ctx, params):
         """
         :param params: instance of type "FeatureSetInputParams" (Input
            parameters for buildFromFeatureSet required: ws_name - workspace
@@ -146,15 +146,20 @@ class SequenceSetUtils:
         """
         # ctx is the context object
         # return variables are: out
-        #BEGIN buildFromFeaturePromoters
+        #BEGIN buildFromFeatureSet
 
+        # TODO: params validation
 
+        featset = featuresetutil.getFeatureSet(params['FeatureSetRef'])
+        featset = featuresetutil.getGenome(params['GenomeRef'])
 
-        #END buildFromFeaturePromoters
+        exit(featset['elements'])
+
+        #END buildFromFeatureSet
 
         # At some point might do deeper type checking...
         if not isinstance(out, dict):
-            raise ValueError('Method buildFromFeaturePromoters return value ' +
+            raise ValueError('Method buildFromFeatureSet return value ' +
                              'out is not type dict as required.')
         # return the results
         return [out]

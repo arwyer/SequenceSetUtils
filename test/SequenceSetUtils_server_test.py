@@ -45,6 +45,8 @@ class SequenceSetUtilsTest(unittest.TestCase):
         cls.scratch = cls.cfg['scratch']
         cls.callback_url = os.environ['SDK_CALLBACK_URL']
 
+        cls.dfu = DataFileUtil(cls.callback_url)
+
         cls.fastaPath = '/kb/module/work/tmp/testFasta.fasta'
         testFasta = open(cls.fastaPath, 'w')
         numSeq = 5
@@ -88,6 +90,7 @@ class SequenceSetUtilsTest(unittest.TestCase):
         return self.__class__.ctx
 
     # NOTE: According to Python unittest naming rules test method names should start from 'test'. # noqa
+    """
     def test_buildFromFasta(self):
         # Prepare test objects in workspace if needed using
         # self.getWsClient().save_objects({'workspace': self.getWsName(),
@@ -109,11 +112,10 @@ class SequenceSetUtilsTest(unittest.TestCase):
 
         result = self.getImpl().buildFromFasta(self.getContext(), params)
 
-        dfu = DataFileUtil(self.callback_url)
         get_objects_params = {
             'object_refs': [result[0]['SequenceSet_ref']]
         }
-        SeqSet = dfu.get_objects(get_objects_params)['data'][0]['data']
+        SeqSet = self.dfu.get_objects(get_objects_params)['data'][0]['data']
 
         for s in SeqSet['sequences']:
             if s['sequence_id'] not in self.seqNames:
@@ -122,8 +124,8 @@ class SequenceSetUtilsTest(unittest.TestCase):
 
         # TODO: come up with better assert here for Fasta -> SeqSet
         self.assertEqual(len(SeqSet['sequences']), len(self.seqNames))
-
     """
+
     def test_buildFromFeatureSet(self):
         # Prepare test objects in workspace if needed using
         # self.getWsClient().save_objects({'workspace': self.getWsName(),
@@ -135,16 +137,19 @@ class SequenceSetUtilsTest(unittest.TestCase):
         # Check returned data with
         # self.assertEqual(ret[...], ...) or other unittest methods
 
-        params = {}
-        params['ws_name'] = 'arwyer:narrative_1540333279849'
-        params['FeatureSet_ref'] = '21698/6/1'
-        params['genome_ref'] = '21698/3/1'
-        params['upstream_length'] = 100
-        result = self.getImpl().buildFromFeatureSet(self.getContext(),params)
-        dfu = DataFileUtil(self.callback_url)
-        get_objects_params = {}
-        get_objects_params['object_refs'] = [result[0]['SequenceSet_ref']]
-        SeqSet = dfu.get_objects(get_objects_params)['data'][0]['data']
+        params = {
+            'ws_name': 'rmr:narrative_1558461244202',
+            'FeatureSet_ref': '21698/6/1',
+            'genome_ref': '21698/3/1',
+            'upstream_length': 100
+        }
 
-        pass
-    """
+        result = self.getImpl().buildFromFeatureSet(self.getContext(),params)
+
+        get_objects_params = {
+            'object_refs': [result[0]['SequenceSet_ref']]
+        }
+        SeqSet = self.dfu.get_objects(get_objects_params)['data'][0]['data']
+
+        # TODO: assert here with FeatureSet -> SequenceSet
+

@@ -128,6 +128,6 @@ module SequenceSetUtils {
 		string seqsetname;
 	} FeatureSetInputParams;
 
-	funcdef buildFromFeatureSet(FeatureSetInputParams params)
+	funcdef buildFromFeaturePromoters(FeatureSetInputParams params)
 		returns (SequenceSetOutputParams out) authentication required;
 };
