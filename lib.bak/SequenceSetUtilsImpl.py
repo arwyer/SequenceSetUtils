@@ -154,17 +154,11 @@ class SequenceSetUtils:
 'ref':params['genome_ref']}])
         features = subset[0]['data']['features']
         aref = subset[0]['data']['assembly_ref']
- featureSet = objects['data'][0]['data']
+        featureSet = objects['data'][0]['data']
         assembly_ref = {'ref': aref}
         print('Downloading Assembly data as a Fasta file.')
         assemblyUtil = AssemblyUtil(self.callback_url)
         fasta_file = assemblyUtil.get_assembly_as_fasta(assembly_ref)
-
-
-
-
-
-
         #TODO:
         #Instead of extracting promoters as strings
         #extract as sequence
@@ -182,18 +176,12 @@ class SequenceSetUtils:
         featureFound = False
         featureLocs = {}
         for feature in featureSet['elements']:
-            #print(feature)
-            #print(featureSet['elements'][feature])
+            # featureSet['elements'] is the featureset object's features
             featureFound = False
-            for f in features:
-                #print f['id']
-                #print feature
+            for f in features: # features is the entire feature set of a genome
                 if f['id'] == feature:
-
                     attributes = f['location'][0]
                     featureFound = True
-                    #print('found match ' + feature)
-                    #print(f['location'])
                     break
             if featureFound:
                 Sequence = {}
@@ -205,22 +193,22 @@ class SequenceSetUtils:
                 Source['location'] = []
 
                 for record in SeqIO.parse(fasta_file['path'], 'fasta'):
-                #for record in SeqIO.parse('/kb/module/work/Gmax_189_genome_assembly.fa', 'fasta'):
-                #print(record.id)
-                #print(attributes[0])
+
                     if record.id == attributes[0]:
-                        #print('adding to prom string')
-                    #print(attributes[0])
+
+
+
+
                         if attributes[2] == '+':
-                            #print('1')
-                        #might need to offset by 1?
+\
                             end = attributes[1]
                             start = end - params['upstream_length']
                             if start < 0:
                                 start = 0
+
                             Source['location'].append((attributes[0],start,'+',end))
                             promoter = record.seq[start:end].upper()
-                            #HERE: resolve ambiguous characters
+
                             Sequence['sequence'] = str(promoter)
                             prom += ">" + feature + "\n"
                             prom += promoter + "\n"
@@ -232,6 +220,8 @@ class SequenceSetUtils:
                             end = start + params['upstream_length']
                             if end > len(record.seq) - 1:
                                 end = len(record.seq) - 1
+
+
                             Source['location'].append((feature,start,'-',end))
                             promoter = record.seq[start:end].upper()
                             complement = {'A': 'T', 'C': 'G', 'G': 'C', 'T': 'A','N': 'N'}
@@ -248,6 +238,9 @@ class SequenceSetUtils:
 
             else:
                 print('Could not find feature ' + feature + 'in genome')
+
+
+
 
         save_objects_params = {}
         save_objects_params['id'] = dfu.ws_name_to_id(params['ws_name'])

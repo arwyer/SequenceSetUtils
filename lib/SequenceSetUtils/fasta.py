@@ -1,7 +1,8 @@
 from datetime import datetime
 from installed_clients.DataFileUtilClient import DataFileUtil
 
-class fastautil:
+
+class FastaUtil:
     def __init__(self, callback):
         self.dfu = DataFileUtil(callback)
 

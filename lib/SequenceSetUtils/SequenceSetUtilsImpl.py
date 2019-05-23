@@ -2,8 +2,8 @@
 #BEGIN_HEADER
 import logging
 import os
-from .fasta import fastautil
-from .featureset import featuresetutil
+from .fasta import FastaUtil
+from .featureset import FeatureSetUtil
 #END_HEADER
 
 
@@ -35,8 +35,8 @@ class SequenceSetUtils:
         #BEGIN_CONSTRUCTOR
         self.callback_url = os.environ['SDK_CALLBACK_URL']
         self.shared_folder = config['scratch']
-        self.fastautil = fastautil(self.callback_url)
-        self.featuresetutil = featuresetutil(self.callback_url, config)
+        self.FastaUtil = FastaUtil(self.callback_url)
+        self.FeatureSetUtil = FeatureSetUtil(self.callback_url, config)
         logging.basicConfig(format='%(created)s %(levelname)s: %(message)s',
                             level=logging.INFO)
         #END_CONSTRUCTOR
@@ -105,13 +105,11 @@ class SequenceSetUtils:
 
         # TODO: params validation
 
-        self.fastautil.openFasta(params['file'])
-        self.fastautil.buildSeqSet(params)
-        ref = self.fastautil.saveSeqSet(params)
+        self.FastaUtil.openFasta(params['file'])
+        self.FastaUtil.buildSeqSet(params)
+        ref = self.FastaUtil.saveSeqSet(params)
 
-        out = {
-            'SequenceSet_ref': ref
-        }
+        out = {'SequenceSet_ref': ref}
 
         #END buildFromFasta
 
@@ -146,10 +144,15 @@ class SequenceSetUtils:
         # return variables are: out
         #BEGIN buildFromFeaturePromoters
 
-        fset = self.featuresetutil.getFeatureSet(params['FeatureSet_ref'])
-        genomefset = self.featuresetutil.getGenomeData(params['genome_ref'])
+        # Downloads
+        self.FeatureSetUtil.getFeatureSet(params['FeatureSet_ref'])
+        self.FeatureSetUtil.getGenomeData(params['genome_ref'])
 
+        # Parsing
+        sequenceset = self.FeatureSetUtil.makeSequenceSet(params)
+        saveseqset = self.FeatureSetUtil.saveSequenceSet(sequenceset, params)
 
+        out = {'SequenceSet_ref': saveseqset}
 
         #END buildFromFeaturePromoters
 
