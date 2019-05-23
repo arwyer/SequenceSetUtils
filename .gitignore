@@ -1,2 +1,5 @@
 test_local
 sdk.cfg
+lib/SequenceSetUtils/SequenceSetUtilsImpl.py.bak*
+test/sample_data
+test/sample_data/*

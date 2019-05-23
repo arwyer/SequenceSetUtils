@@ -53,7 +53,7 @@
         "service-mapping": {
             "url": "",
             "name": "SequenceSetUtils",
-            "method": "buildFromFeatureSet",
+            "method": "buildFromFeaturePromoters",
             "input_mapping": [
                 {
                     "narrative_system_variable": "workspace",

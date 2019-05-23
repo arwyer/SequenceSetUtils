@@ -4,9 +4,9 @@ import os
 import json
 from Bio import SeqIO
 from AssemblyUtil.AssemblyUtilClient import AssemblyUtil
-from DataFileUtil.DataFileUtilClient import DataFileUtil
+
 from biokbase.workspace.client import Workspace
-from datetime import datetime
+
 #END_HEADER
 
 
@@ -27,7 +27,7 @@ class SequenceSetUtils:
     ######################################### noqa
     VERSION = "0.0.1"
     GIT_URL = "https://github.com/arwyer/SequenceSetUtils.git"
-    GIT_COMMIT_HASH = "bc29c88c63aa873912e903262dfbb7deb88badff"
+    GIT_COMMIT_HASH = "dd7a7b6c2663be904ff9709487ad0ca0b1dcbbfe"
 
     #BEGIN_CLASS_HEADER
     #END_CLASS_HEADER
@@ -38,6 +38,7 @@ class SequenceSetUtils:
         #BEGIN_CONSTRUCTOR
         self.callback_url = os.environ['SDK_CALLBACK_URL']
         self.shared_folder = config['scratch']
+        self.fastautil =
         #END_CONSTRUCTOR
         pass
 
@@ -68,13 +69,13 @@ class SequenceSetUtils:
                 Sequence = {}
                 Sequence['sequence_id'] = line.replace('\n','').replace('>','')
                 Sequence['description'] = line.replace('\n','').replace('>','')
-                Sequence['source'] = {}
+                Sequence['source'] = {'location':[],'assembly_id':''}
             else:
                 Sequence['sequence'] = line.replace('\n','')
                 SequenceSet['sequences'].append(Sequence)
         save_objects_params = {}
         save_objects_params['id'] = dfu.ws_name_to_id(params['ws_name'])
-        save_objects_params['objects'] = [{'type': 'KBaseGwasData.SequenceSet','data':SequenceSet,'name':objname}]
+        save_objects_params['objects'] = [{'type': 'KBaseSequences.SequenceSet','data':SequenceSet,'name':objname}]
         info = dfu.save_objects(save_objects_params)[0]
         ref = "%s/%s/%s" % (info[6],info[0],info[4])
         out = {'SequenceSet_ref':ref}
@@ -105,6 +106,16 @@ class SequenceSetUtils:
         # ctx is the context object
         # return variables are: out
         #BEGIN buildFromLocations
+        #question about best practices here:
+        #dont want to redownload genome every time?
+        sortedSeq = sorted(params['seqlocations'], key=lambda k: k['genome_ref'])
+        SeqSet = {}
+        #for seq in param['seqlocations']:
+            #Download this
+            #seq['genome_ref']
+            #for loc in params['genlocations']:
+                #extract the sequence
+
         #END buildFromLocations
 
         # At some point might do deeper type checking...
@@ -130,10 +141,12 @@ class SequenceSetUtils:
         # ctx is the context object
         # return variables are: out
         #BEGIN buildFromFeatureSet
-        
+
         #Get the featureset and assembly to extract sequences from
         dfu = DataFileUtil(self.callback_url)
         objectRefs = {'object_refs' : [params['FeatureSet_ref']]}
+        objects = dfu.get_objects(objectRefs)
+
         ws = Workspace('https://appdev.kbase.us/services/ws')
         ws_name = params['ws_name']
         subset = ws.get_object_subset([{
@@ -141,14 +154,11 @@ class SequenceSetUtils:
 'ref':params['genome_ref']}])
         features = subset[0]['data']['features']
         aref = subset[0]['data']['assembly_ref']
-        objects = dfu.get_objects(objectRefs)
         featureSet = objects['data'][0]['data']
         assembly_ref = {'ref': aref}
         print('Downloading Assembly data as a Fasta file.')
         assemblyUtil = AssemblyUtil(self.callback_url)
         fasta_file = assemblyUtil.get_assembly_as_fasta(assembly_ref)
-        
-        
         #TODO:
         #Instead of extracting promoters as strings
         #extract as sequence
@@ -160,47 +170,46 @@ class SequenceSetUtils:
         SequenceSet['sequence_set_id'] = objname
         SequenceSet['description'] = 'SequenceSet built from ' + params['FeatureSet_ref'] + ' with length ' +str(params['upstream_length'])
         SequenceSet['sequences'] = []
+
+
         prom= ""
         featureFound = False
+        featureLocs = {}
         for feature in featureSet['elements']:
-            #print(feature)
-            #print(featureSet['elements'][feature])
+            # featureSet['elements'] is the featureset object's features
             featureFound = False
-            for f in features:
-                #print f['id']
-                #print feature
+            for f in features: # features is the entire feature set of a genome
                 if f['id'] == feature:
                     attributes = f['location'][0]
                     featureFound = True
-                    #print('found match ' + feature)
-                    #print(f['location'])
                     break
             if featureFound:
                 Sequence = {}
                 Sequence['sequence_id'] = feature
                 Sequence['description'] = feature
-                Sequence['']
+                #Sequence['source'] =
                 Source = {}
                 Source['assembly_id'] = aref
                 Source['location'] = []
+
                 for record in SeqIO.parse(fasta_file['path'], 'fasta'):
-                #for record in SeqIO.parse('/kb/module/work/Gmax_189_genome_assembly.fa', 'fasta'):
-                #print(record.id)
-                #print(attributes[0])
+
                     if record.id == attributes[0]:
-                        #print('adding to prom string')
-                    #print(attributes[0])
+
+
+
+
                         if attributes[2] == '+':
-                            #print('1')
-                        #might need to offset by 1?
+\
                             end = attributes[1]
                             start = end - params['upstream_length']
                             if start < 0:
                                 start = 0
-                            Source['location'].append((feature,start,'+',end))
+
+                            Source['location'].append((attributes[0],start,'+',end))
                             promoter = record.seq[start:end].upper()
-                            #HERE: resolve ambiguous characters
-                            Sequence['sequence'] = promoter
+
+                            Sequence['sequence'] = str(promoter)
                             prom += ">" + feature + "\n"
                             prom += promoter + "\n"
 
@@ -211,12 +220,14 @@ class SequenceSetUtils:
                             end = start + params['upstream_length']
                             if end > len(record.seq) - 1:
                                 end = len(record.seq) - 1
+
+
                             Source['location'].append((feature,start,'-',end))
                             promoter = record.seq[start:end].upper()
                             complement = {'A': 'T', 'C': 'G', 'G': 'C', 'T': 'A','N': 'N'}
                             promoter = ''.join([complement[base] for base in promoter[::-1]])
                             #HERE: resolve ambiguous characters
-                            Sequence['sequence'] = promoter
+                            Sequence['sequence'] = str(promoter)
                             prom += ">" + feature + "\n"
                             prom += promoter + "\n"
 
@@ -224,13 +235,16 @@ class SequenceSetUtils:
                             print('Error on orientation')
                 Sequence['source'] = Source
                 SequenceSet['sequences'].append(Sequence)
-                
+
             else:
                 print('Could not find feature ' + feature + 'in genome')
-        
+
+
+
+
         save_objects_params = {}
         save_objects_params['id'] = dfu.ws_name_to_id(params['ws_name'])
-        save_objects_params['objects'] = [{'type': 'KBaseGwasData.SequenceSet','data':SequenceSet,'name':objname}]
+        save_objects_params['objects'] = [{'type': 'KBaseSequences.SequenceSet','data':SequenceSet,'name':objname}]
         info = dfu.save_objects(save_objects_params)[0]
         ref = "%s/%s/%s" % (info[6],info[0],info[4])
         out = {'SequenceSet_ref':ref}
