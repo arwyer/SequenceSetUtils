@@ -99,14 +99,26 @@ module SequenceSetUtils {
                 seqsetname - name of sequence set output object
 	*/
 
-	typedef structure{
-		workspace_name ws_name;
-		File file;
-		string seqsetname;
+  typedef structure{
+	    workspace_name ws_name;
+		  File file;
+		  string seqsetname;
 	} FastaInputParams;
 
 	funcdef buildFromFasta(FastaInputParams params)
 		returns (SequenceSetOutputParams out) authentication required;
+
+  typedef structure{         
+     workspace_name ws_name;             
+     SequenceSetRef SS_ref;       
+   } SeqSet2FastaInput;
+
+   typedef structure {
+     File fasta_output;
+   } SS2FastaOutputParams;
+
+  funcdef SeqSetToFasta(SeqSet2FastaInput params)
+    returns (SS2FastaOutputParams out) authentication required;
 
 	/*
 	    Input parameters for buildFromFeatureSet

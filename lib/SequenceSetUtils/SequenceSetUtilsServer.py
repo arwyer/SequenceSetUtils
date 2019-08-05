@@ -346,6 +346,10 @@ class Application(object):
                              name='SequenceSetUtils.buildFromFasta',
                              types=[dict])
         self.method_authentication['SequenceSetUtils.buildFromFasta'] = 'required'  # noqa
+        self.rpc_service.add(impl_SequenceSetUtils.SeqSetToFasta,
+                             name='SequenceSetUtils.SeqSetToFasta',
+                             types=[dict])
+        self.method_authentication['SequenceSetUtils.SeqSetToFasta'] = 'required'  # noqa
         self.rpc_service.add(impl_SequenceSetUtils.buildFromFeaturePromoters,
                              name='SequenceSetUtils.buildFromFeaturePromoters',
                              types=[dict])

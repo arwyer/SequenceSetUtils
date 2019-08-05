@@ -1,10 +1,26 @@
 from datetime import datetime
+import os
 from installed_clients.DataFileUtilClient import DataFileUtil
 
 
 class FastaUtil:
-    def __init__(self, callback):
-        self.dfu = DataFileUtil(callback)
+    def __init__(self, config):
+        self.dfu = DataFileUtil(os.environ['SDK_CALLBACK_URL'])
+        self.scratch = config['scratch']
+
+    def SS2Fasta(self, params):
+        seq_set = self.dfu.get_objects({'object_refs': [SS_ref]})['data'][0]['data']
+
+        output_fasta_file = os.path.join(self.scratch, str(seq_set['sequence_set_id'])+'.fasta')
+
+        with open(output_fasta_file, 'w') as f:
+            for s in seq_set['sequences']:
+                f.write('> ' + s['sequence_id'] + '\n')
+                f.write(s['sequence']+'\n\n')
+
+            f.close()
+
+        return output_fasta_file
 
     def openFasta(self, fastalocation):
         # TODO: check other file methods
