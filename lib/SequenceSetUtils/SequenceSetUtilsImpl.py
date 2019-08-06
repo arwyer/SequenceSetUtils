@@ -24,7 +24,7 @@ class SequenceSetUtils:
     ######################################### noqa
     VERSION = "0.0.1"
     GIT_URL = "https://github.com/kbasecollaborations/SequenceSetUtils.git"
-    GIT_COMMIT_HASH = "8880e24a8bdbb0eeaa6213fa1e367ae46e768702"
+    GIT_COMMIT_HASH = "679f716021734d26c73359d8939a820617f1f9c7"
 
     #BEGIN_CLASS_HEADER
     #END_CLASS_HEADER
@@ -90,9 +90,10 @@ class SequenceSetUtils:
            for buildFromFasta: required: ws_name - workspace name file -
            identifiers for fasta file optional: seqsetname - name of sequence
            set output object) -> structure: parameter "ws_name" of type
-           "workspace_name" (workspace name of the object), parameter
-           "seq_set_ref" of type "SequenceSetRef" (Ref to a sequence set @id
-           ws KBaseGeneRegulation.SequenceSet)
+           "workspace_name" (workspace name of the object), parameter "file"
+           of type "File" -> structure: parameter "path" of String, parameter
+           "shock_id" of String, parameter "ftp_url" of String, parameter
+           "seqsetname" of String
         :returns: instance of type "SequenceSetOutputParams" (SequenceSet_ref
            - KBase object reference to sequence set) -> structure: parameter
            "SequenceSet_ref" of type "SequenceSetRef" (Ref to a sequence set
@@ -123,9 +124,8 @@ class SequenceSetUtils:
         """
         :param params: instance of type "SeqSet2FastaInput" -> structure:
            parameter "ws_name" of type "workspace_name" (workspace name of
-           the object), parameter "file" of type "File" -> structure:
-           parameter "path" of String, parameter "shock_id" of String,
-           parameter "ftp_url" of String, parameter "seqsetname" of String
+           the object), parameter "SS_ref" of type "SequenceSetRef" (Ref to a
+           sequence set @id ws KBaseGeneRegulation.SequenceSet)
         :returns: instance of type "SS2FastaOutputParams" -> structure:
            parameter "fasta_output" of type "File" -> structure: parameter
            "path" of String, parameter "shock_id" of String, parameter

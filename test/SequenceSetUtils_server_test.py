@@ -91,6 +91,7 @@ class SequenceSetUtilsTest(unittest.TestCase):
         return self.__class__.ctx
 
     # NOTE: According to Python unittest naming rules test method names should start from 'test'. # noqa
+    """
     def test_buildFromFasta(self):
         # Prepare test objects in workspace if needed using
         # self.getWsClient().save_objects({'workspace': self.getWsName(),
@@ -124,6 +125,7 @@ class SequenceSetUtilsTest(unittest.TestCase):
 
         # TODO: come up with better assert here for Fasta -> SeqSet
         self.assertEqual(len(SeqSet['sequences']), len(self.seqNames))
+    """
 
     def test_buildFromFeatureSet(self):
         # Prepare test objects in workspace if needed using
@@ -141,8 +143,8 @@ class SequenceSetUtilsTest(unittest.TestCase):
 
         params = {
             'ws_name': 'rmr:narrative_1558461244202',
-            'FeatureSet_ref': '28598/6/1',
-            'genome_ref': '28598/5/1',
+            'FeatureSet_ref': '28598/19/1',
+            'genome_ref': '28598/18/1',
             'upstream_length': 100
         }
 
