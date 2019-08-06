@@ -9,7 +9,7 @@ class FastaUtil:
         self.scratch = config['scratch']
 
     def SS2Fasta(self, params):
-        seq_set = self.dfu.get_objects({'object_refs': [SS_ref]})['data'][0]['data']
+        seq_set = self.dfu.get_objects({'object_refs': [params['SS_ref']]})['data'][0]['data']
 
         output_fasta_file = os.path.join(self.scratch, str(seq_set['sequence_set_id'])+'.fasta')
 
