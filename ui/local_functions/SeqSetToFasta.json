@@ -5,8 +5,8 @@
    "tags" : {
      "categories" : ["Sequence Set", "FASTA", "Gene regulation"],
      "input": {
-       "kb_types": ["KBaseGeneRegulation.SequenceSet"]
-       "file_types": [],
+       "kb_types": ["KBaseGeneRegulation.SequenceSet"],
+       "file_types": []
      },
      "output": {
        "file_types": ["FASTA"],
