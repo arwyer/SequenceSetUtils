@@ -1,0 +1,16 @@
+ {
+   "name" : "buildFromFasta",
+   "short_description" : "Build a Sequence Set Object from a FASTA file",
+   "long_description" : "",
+   "tags" : {
+     "categories" : ["Sequence Set", "FASTA", "Gene regulation"],
+     "input": {
+       "file_types": ["FASTA"],
+       "kb_types": []
+     },
+     "output": {
+       "file_types": [],
+       "kb_types": ["KBaseGeneRegulation.SequenceSet"]
+     }
+   }
+ }
