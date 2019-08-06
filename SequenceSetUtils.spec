@@ -43,13 +43,13 @@ module SequenceSetUtils {
 	} SequenceSetOutputParams;
 
 	/*
-	    Input parameters for buildFromLocations
+    Input parameters for buildFromLocations
 
-	    location_id, relevent identifiers to identify a sequence location:
-	        contig_id - string - name relevent to the assembly contig, e.g. chr1, chrX, contig1, etc.
-	        start - int - start of sequence
-	        end - int - end of sequence
-	        orientation - range("-", "+") - reference to the sense of a DNA/RNA strand
+    location_id, relevent identifiers to identify a sequence location:
+        contig_id - string - name relevent to the assembly contig, e.g. chr1, chrX, contig1, etc.
+        start - int - start of sequence
+        end - int - end of sequence
+        orientation - range("-", "+") - reference to the sense of a DNA/RNA strand
 	*/
 
 	typedef structure{
@@ -87,7 +87,7 @@ module SequenceSetUtils {
 	} LocationInputParams;
 
 	funcdef buildFromLocations(LocationInputParams params) 
-    returns (SequenceSetOutputParams out) authentication required;
+      returns (SequenceSetOutputParams out) authentication required;
 	
 	/*
 	    Input parameters for buildFromFasta:
@@ -99,37 +99,37 @@ module SequenceSetUtils {
                 seqsetname - name of sequence set output object
 	*/
 
-  typedef structure{
+    typedef structure{
 	    workspace_name ws_name;
-		  File file;
-		  string seqsetname;
+        File file;
+	    string seqsetname;
 	} FastaInputParams;
 
 	funcdef buildFromFasta(FastaInputParams params)
-		returns (SequenceSetOutputParams out) authentication required;
+	  returns (SequenceSetOutputParams out) authentication required;
 
-  typedef structure{         
-     workspace_name ws_name;             
-     SequenceSetRef SS_ref;       
-   } SeqSet2FastaInput;
+    typedef structure{
+        workspace_name ws_name;
+        SequenceSetRef SS_ref;
+    } SeqSet2FastaInput;
 
-   typedef structure {
+    typedef structure {
      File fasta_output;
-   } SS2FastaOutputParams;
+    } SS2FastaOutputParams;
 
-  funcdef SeqSetToFasta(SeqSet2FastaInput params)
-    returns (SS2FastaOutputParams out) authentication required;
+    funcdef SeqSetToFasta(SeqSet2FastaInput params)
+      returns (SS2FastaOutputParams out) authentication required;
 
 	/*
-	    Input parameters for buildFromFeatureSet
-	        required:
-                ws_name - workspace name
-                FeatureSet_ref - validated reference to feature set
-                genome_ref - validated reference to genome
-                upstream_length - length of region upstream of features to extract sequences from
+    Input parameters for buildFromFeatureSet
+        required:
+            ws_name - workspace name
+            FeatureSet_ref - validated reference to feature set
+            genome_ref - validated reference to genome
+            upstream_length - length of region upstream of features to extract sequences from
 
-            optional:
-                seqsetname - name of sequence set output object
+        optional:
+            seqsetname - name of sequence set output object
 	*/
 
 	typedef structure{
@@ -141,5 +141,5 @@ module SequenceSetUtils {
 	} FeatureSetInputParams;
 
 	funcdef buildFromFeaturePromoters(FeatureSetInputParams params)
-		returns (SequenceSetOutputParams out) authentication required;
+	  returns (SequenceSetOutputParams out) authentication required;
 };
