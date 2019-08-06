@@ -24,7 +24,7 @@ class SequenceSetUtils:
     ######################################### noqa
     VERSION = "0.0.1"
     GIT_URL = "https://github.com/kbasecollaborations/SequenceSetUtils.git"
-    GIT_COMMIT_HASH = "b2262784890bad0a5085caa6d16f4a3cc494b6b1"
+    GIT_COMMIT_HASH = "a0dd3acbca7b7fefb27f5a86a94ec4b5e552acdf"
 
     #BEGIN_CLASS_HEADER
     #END_CLASS_HEADER
@@ -43,7 +43,7 @@ class SequenceSetUtils:
         pass
 
 
-    def buildFromLocations(self, ctx, params):
+    def SSFromLocations(self, ctx, params):
         """
         :param params: instance of type "LocationInputParams"
            (LocationInputParams, direct inputs for buildFromLocation:
@@ -74,12 +74,13 @@ class SequenceSetUtils:
         """
         # ctx is the context object
         # return variables are: out
-        #BEGIN buildFromLocations
-        #END buildFromLocations
+        #BEGIN SSFromLocations
+        out = {}
+        #END SSFromLocations
 
         # At some point might do deeper type checking...
         if not isinstance(out, dict):
-            raise ValueError('Method buildFromLocations return value ' +
+            raise ValueError('Method SSFromLocations return value ' +
                              'out is not type dict as required.')
         # return the results
         return [out]

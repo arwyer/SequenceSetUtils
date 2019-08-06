@@ -86,7 +86,7 @@ module SequenceSetUtils {
 		string seqsetname;
 	} LocationInputParams;
 
-	funcdef buildFromLocations(LocationInputParams params)
+	funcdef SSFromLocations(LocationInputParams params)
 	  returns (SequenceSetOutputParams out) authentication required;
 	
 	/*
