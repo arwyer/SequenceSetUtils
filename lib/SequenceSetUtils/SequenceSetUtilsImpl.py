@@ -24,7 +24,7 @@ class SequenceSetUtils:
     ######################################### noqa
     VERSION = "0.0.1"
     GIT_URL = "https://github.com/kbasecollaborations/SequenceSetUtils.git"
-    GIT_COMMIT_HASH = "679f716021734d26c73359d8939a820617f1f9c7"
+    GIT_COMMIT_HASH = "23c917823641dd55f275b084117b41dc12c3e650"
 
     #BEGIN_CLASS_HEADER
     #END_CLASS_HEADER
