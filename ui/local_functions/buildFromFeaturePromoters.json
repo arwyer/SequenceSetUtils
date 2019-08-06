@@ -1,16 +1,16 @@
- {
-   "name" : "buildFromFeatureSet",
-   "short_description" : "Build Sequence Set from Feature Set object",
-   "long_description" : "Build a KBase Sequence Set object from a Feature Set Object",
-   "tags" : {
-     "categories" : ["Gene Regulation", "Sequence Set", "Feature Set"],
-     "input": {
-       "file_types": [],
-       "kb_types": ["KBaseCollections.FeatureSet"]
-     },
-     "output": {
-       "file_types": [],
-       "kb_types": ["KBaseGeneRegulation.SequenceSet"]
-     }
-   }
- }
+{
+    "name" : "buildFromFeatureSet",
+    "short_description" : "Build Sequence Set from Feature Set object",
+    "long_description" : "Build a KBase Sequence Set object from a Feature Set Object",
+    "tags" : {
+        "categories" : ["Gene Regulation", "Sequence Set", "Feature Set"],
+        "input": {
+            "file_types": [],
+            "kb_types": ["KBaseCollections.FeatureSet"]
+        },
+        "output": {
+            "file_types": [],
+            "kb_types": ["KBaseGeneRegulation.SequenceSet"]
+        }
+    }
+}
